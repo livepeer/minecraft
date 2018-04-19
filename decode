@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+
+const fs = require("fs");
+const { promisify } = require("util");
+const read = promisify(fs.readFile);
+const write = promisify(fs.writeFile);
+const { uint32ArrayToAddrs, toArrayBuffer } = require("./utils");
+
+main();
+
+async function main() {
+  const [
+    ,
+    ,
+    inputFilename,
+    outputFilename = `${inputFilename}.encoded`
+  ] = process.argv;
+  console.log(`${inputFilename} -> ${outputFilename}`);
+  console.log(`reading...`);
+  const data = await read(inputFilename);
+  console.log("decoding...");
+  const buf = toArrayBuffer(data);
+  const xs = new Uint32Array(buf);
+  console.log(`writing...`);
+  await write(outputFilename, uint32ArrayToAddrs(xs));
+  console.log("done! ✨");
+}
