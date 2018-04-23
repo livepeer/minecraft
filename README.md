@@ -5,7 +5,7 @@
 You first, encode the text dump of eth addresses in `accounts.txt`
 
 ```bash
-node encode accounts.txt accounts.bin
+node encode /path/to/accounts.txt accounts.bin
 ```
 
 Then you can start the dapp
