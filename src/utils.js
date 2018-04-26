@@ -1,10 +1,4 @@
-import * as React from 'react'
-import { utils } from 'ethers'
 import { keccak_256 as keccak256 } from 'js-sha3'
-
-export const consumeWith = Component => {
-  return state => <Component {...state} />
-}
 
 export const prop = k => o => o[k]
 
