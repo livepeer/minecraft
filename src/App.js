@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { Consumer, changeMode, generateToken } from './State'
+import { Consumer } from './state'
+import { changeMode, generateToken } from './mutations'
 import { prop } from './utils'
 
 const App = styled(({ className }) => {
@@ -54,7 +55,7 @@ const viewController = state => {
     },
     state[mode],
   )
-  console.log(props)
+  // console.log(props)
   if (mode === 'generateToken') return <GenerateTokenMode {...props} />
   return null
 }

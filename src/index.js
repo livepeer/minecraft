@@ -1,7 +1,7 @@
 import 'babel-polyfill'
 import * as React from 'react'
 import { render } from 'react-dom'
-import { Provider } from './State'
+import { Provider } from './state'
 import App from './App'
 
 render(
