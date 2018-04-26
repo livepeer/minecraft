@@ -1,33 +1,27 @@
 const exp0rt = f => (exports[f.name] = f)
 
-exp0rt(toHexString)
-exp0rt(uint32ArrayToAddrs)
-exp0rt(addrToUint32Array)
 exp0rt(toArrayBuffer)
+exp0rt(hexToArrayBuffer)
+exp0rt(arrayBufferToHex)
 
-function toHexString(x) {
-  return x.toString(16).padStart(8, '0')
-}
-
-function uint32ArrayToAddrs(xs) {
-  const offset = 5
-  let i = 0
-  let addr = ''
-  for (const x of xs) {
-    addr += toHexString(x)
-    if (++i % 5 === 0) addr += '\n'
-  }
-  return addr
-}
-
-function addrToUint32Array(addr) {
-  const xs = new Uint32Array(5)
-  const hex = addr.match(/.{8}/g)
-  // console.log(hex)
-  for (let i = 0; i < 5; i++) {
+function hexToArrayBuffer(addr) {
+  const len = (addr.length / 2) >> 0
+  const xs = new Uint8Array(len)
+  const hex = addr.match(/.{2}/g)
+  for (let i = 0; i < len; i++) {
     xs[i] = parseInt(hex[i], 16)
   }
-  return xs
+  return xs.buffer
+}
+
+function arrayBufferToHex(buf) {
+  const xs = new Uint8Array(buf)
+  const { length } = xs
+  let addr = ''
+  for (let i = 0; i < length; i++) {
+    addr += xs[i].toString(16).padStart(2, '0')
+  }
+  return addr
 }
 
 function toArrayBuffer(buffer) {

@@ -1,44 +1,34 @@
 #!/usr/bin/env node
 
-const fs = require("fs");
-const { promisify } = require("util");
-const read = promisify(fs.readFile);
-const write = promisify(fs.writeFile);
-const {
-  uint32ArrayToAddrs,
-  toHexString,
-  addrToUint32Array
-} = require("./utils");
+const fs = require('fs')
+const { promisify } = require('util')
+const read = promisify(fs.readFile)
+const write = promisify(fs.writeFile)
+const { hexToArrayBuffer } = require('./utils')
 
-main();
+main()
 
 async function main() {
   const [
     ,
     ,
     inputFilename,
-    outputFilename = `${inputFilename}.encoded`
-  ] = process.argv;
-  console.log(`${inputFilename} -> ${outputFilename}`);
-  console.log(`reading...`);
-  const data = await read(inputFilename);
-  console.log("encoding...");
-  const accounts = data
+    outputFilename = `${inputFilename}.encoded`,
+  ] = process.argv
+  console.log(`${inputFilename} -> ${outputFilename}`)
+  console.log(`reading...`)
+  const data = await read(inputFilename)
+  console.log('encoding...')
+  const addresses = data
     .toString()
     .trim()
-    .split("\n");
-  const buf = new ArrayBuffer(accounts.length * 20);
-  const xs = new Uint32Array(buf);
-  const offset = 5;
-  let i = 0;
-  for (const addr of accounts) {
-    xs.set(addrToUint32Array(addr), offset * i);
-    i++;
+    .split('\n')
+  const { length } = addresses
+  const xs = new Uint8Array(length * 20)
+  for (let i = 0; i < length; i++) {
+    xs.set(new Uint8Array(hexToArrayBuffer(addresses[i])), i * 20)
   }
-  // console.log(uint32ArrayToAddr(xs));
-  console.log(`writing...`);
-  await write(outputFilename, new Buffer(xs.buffer));
-  // console.log("writing accounts text file...");
-  // await write("./accounts_copy.txt", uint32ArrayToAddrs(xs));
-  console.log("done! ✨");
+  console.log(`writing...`)
+  await write(outputFilename, new Buffer(xs.buffer))
+  console.log('done! ✨')
 }

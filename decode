@@ -1,27 +1,34 @@
 #!/usr/bin/env node
 
-const fs = require("fs");
-const { promisify } = require("util");
-const read = promisify(fs.readFile);
-const write = promisify(fs.writeFile);
-const { uint32ArrayToAddrs, toArrayBuffer } = require("./utils");
+const fs = require('fs')
+const { promisify } = require('util')
+const read = promisify(fs.readFile)
+const write = promisify(fs.writeFile)
+const { arrayBufferToHex, toArrayBuffer } = require('./utils')
 
-main();
+main()
 
 async function main() {
   const [
     ,
     ,
     inputFilename,
-    outputFilename = `${inputFilename}.encoded`
-  ] = process.argv;
-  console.log(`${inputFilename} -> ${outputFilename}`);
-  console.log(`reading...`);
-  const data = await read(inputFilename);
-  console.log("decoding...");
-  const buf = toArrayBuffer(data);
-  const xs = new Uint32Array(buf);
-  console.log(`writing...`);
-  await write(outputFilename, uint32ArrayToAddrs(xs));
-  console.log("done! ✨");
+    outputFilename = `${inputFilename}.encoded`,
+  ] = process.argv
+  const writeStream = fs.createWriteStream(outputFilename)
+  console.log(`${inputFilename} -> ${outputFilename}`)
+  console.log(`reading...`)
+  const data = await read(inputFilename)
+  console.log('decoding...')
+  const buf = toArrayBuffer(data)
+  const len = (buf.byteLength / 20) >> 0
+  const xs = new Uint8Array(buf)
+  console.log(`writing...`)
+  for (let i = 0; i < len; i++) {
+    const a = i * 20
+    const b = a + 20
+    const addr = arrayBufferToHex(xs.slice(a, b).buffer)
+    writeStream.write(addr + '\n')
+  }
+  console.log('done! ✨')
 }

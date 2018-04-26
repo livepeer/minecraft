@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { utils } from 'ethers'
 import { keccak_256 as keccak256 } from 'js-sha3'
-import { SIGXFSZ } from 'constants'
 
 export const consumeWith = Component => {
   return state => <Component {...state} />
@@ -68,7 +67,7 @@ export function arrayBufferToHex(buf: ArrayBuffer): string {
   const { length } = xs
   let addr = ''
   for (let i = 0; i < length; i++) {
-    addr += xs[i].toString(16).padLeft(2, '0')
+    addr += xs[i].toString(16).padStart(2, '0')
   }
   return addr
 }
