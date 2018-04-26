@@ -9,10 +9,12 @@ import {
   hashLeaf,
   hashParent,
   hexToArrayBuffer,
+  indexOfArrayBuffer,
   mergeAllArrayBuffers,
   mergeArrayBuffers,
   sortArrayBuffers,
   verifyProof,
+  getMerkleProof,
 } from './utils'
 import { keccak_256 as keccak256 } from 'js-sha3'
 
@@ -183,9 +185,25 @@ d5e1221fa3b2617be2ae3be72689362dd90e9fc3
   const input = mergeAllArrayBuffers(
     ...addresses.map(hexToArrayBuffer).sort(sortArrayBuffers),
   )
-
+  // const xs = new Uint8Array(input)
+  // const len = xs.length
+  // for (let i = 0; i < len; i++) {
+  //   const a = i * 20
+  //   const b = a + 20
+  //   const addr = arrayBufferToHex(xs.slice(a, b).buffer)
+  //   console.log(addr)
+  //   return
+  // }
   const tree = createMerkleTree(input)
+  // console.log(tree.map(x => x.map(arrayBufferToHex).join('\n')).join('\n\n'))
   const root = getMerkleRoot(tree)
+
+  const addrHex = '4fe9367ef5dad459ae9cc4265c69b1b10a4e1288'
+  const addr = hexToArrayBuffer(addrHex)
+  const index = indexOfArrayBuffer(tree, addr)
+  console.log('indexOf:', index)
+  const proof = getMerkleProof(tree, index)
   console.log('root:', arrayBufferToHex(root))
+  console.log('proof:', arrayBufferToHex(proof))
   t.pass()
 })

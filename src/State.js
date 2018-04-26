@@ -5,6 +5,7 @@ const { Provider, Consumer, createMutator } = createState({
   address: window.web3.eth.accounts[0],
   tokenBalance: 0,
   proof: '0x000000',
+  merkleRoot: '',
   generateProof: {
     dataUrl: '',
     data: null,

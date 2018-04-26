@@ -6,6 +6,14 @@ export const changeMode = createMutator((state, e) => {
   state.mode = value
 })
 
+export const setMerkleRoot = createMutator((state, value) => {
+  state.merkleRoot = value
+})
+
+export const setMerkleProof = createMutator((state, value) => {
+  state.merkleProof = value
+})
+
 export const setViewState = createMutator((state, key, nextState) => {
   if (!(key in state)) throw new Error(`View "${key}" is not part of the state`)
   state[key] = Object.assign(state[key], nextState)

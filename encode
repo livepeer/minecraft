@@ -4,7 +4,7 @@ const fs = require('fs')
 const { promisify } = require('util')
 const read = promisify(fs.readFile)
 const write = promisify(fs.writeFile)
-const { hexToArrayBuffer } = require('./utils')
+const { hexToArrayBuffer, sortArrayBuffers } = require('./utils')
 
 main()
 
@@ -13,8 +13,9 @@ async function main() {
     ,
     ,
     inputFilename,
-    outputFilename = `${inputFilename}.encoded`,
+    outputFilename = `${inputFilename}.bin`,
   ] = process.argv
+  const writeStream = fs.createWriteStream(outputFilename)
   console.log(`${inputFilename} -> ${outputFilename}`)
   console.log(`reading...`)
   const data = await read(inputFilename)
@@ -23,12 +24,12 @@ async function main() {
     .toString()
     .trim()
     .split('\n')
+    .map(hexToArrayBuffer)
+    .sort(sortArrayBuffers)
   const { length } = addresses
-  const xs = new Uint8Array(length * 20)
-  for (let i = 0; i < length; i++) {
-    xs.set(new Uint8Array(hexToArrayBuffer(addresses[i])), i * 20)
-  }
   console.log(`writing...`)
-  await write(outputFilename, new Buffer(xs.buffer))
+  for (let i = 0; i < length; i++) {
+    writeStream.write(new Buffer(addresses[i]))
+  }
   console.log('done! ✨')
 }

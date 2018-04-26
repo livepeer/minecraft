@@ -30,13 +30,13 @@ export function hashParent(a: ArrayBuffer, b: ArrayBuffer): ArrayBuffer {
 
 export function verifyProof(
   /** a */
-  leaf: ArrayBuffer,
+  input: ArrayBuffer,
   /** hashLeaf(b) */
   proof: ArrayBuffer,
   /** hashParent(a, b) */
   root: ArrayBuffer,
 ): boolean {
-  const a = hashLeaf(leaf)
+  const a = hashLeaf(input)
   const b = proof
   const c =
     sortArrayBuffers(a, b) === 1
@@ -47,7 +47,7 @@ export function verifyProof(
 }
 
 export function hexToArrayBuffer(addr: string): ArrayBuffer {
-  const len = (addr.length / 2) >> 0
+  const len = (addr.length / 2) | 0
   const xs = new Uint8Array(len)
   const hex = addr.match(/.{2}/g)
   for (let i = 0; i < len; i++) {
@@ -114,16 +114,17 @@ export function arrayBufferEqualTo(buf0, buf1) {
   return true
 }
 
-export function createMerkleTree(input: ArrayBuffer): ArrayBuffer[][] {
-  const tree: ArrayBuffer[] = []
+export function createMerkleTree(
+  input: ArrayBuffer,
+  onProgress: number => void,
+): ArrayBuffer[][] {
+  const tree: ArrayBuffer[][] = [[]]
   // create outmost branch
   const addrLen = 20
-  const inputByteLength = input.byteLength
-  const len = (inputByteLength / addrLen) >> 0
-  const totalBranches = Math.ceil(inputByteLength / addrLen / 2) + 1
-  for (let i = 0; i < totalBranches; i++) {
-    tree[i] = []
-  }
+  const hasProgressCallback = !!onProgress
+  const { byteLength } = input
+  const len = (byteLength / addrLen) | 0
+  // const totalBranches = Math.log2(len)
   const xs = new Uint8Array(input)
   for (let i = 0; i < len; i++) {
     const a = i * addrLen
@@ -131,22 +132,32 @@ export function createMerkleTree(input: ArrayBuffer): ArrayBuffer[][] {
     const buf = xs.slice(a, b).buffer
     tree[0][i] = hashLeaf(buf)
   }
-  for (let i = 0; i < totalBranches - 1; i++) {
-    const branch = tree[i]
+  let n = 0
+  let [branch] = tree
+  let prog = 1
+  if (hasProgressCallback) onProgress(1 - prog)
+  while (branch.length > 1) {
     const { length } = branch
     const len = Math.ceil(length / 2)
-    const nextBranch = tree[i + 1]
-    for (let j = 0; j < len; j++) {
-      const n = j * 2
+    const nextBranch = (tree[n + 1] = [])
+    const branchProg = prog / 2
+    for (let i = 0; i < len; i++) {
+      const n = i * 2
       const a = branch[n]
       const b = branch[n + 1]
       if (!a || !b) {
-        nextBranch[j] = a || b
+        nextBranch[i] = a || b
       } else {
-        nextBranch[j] = hashParent(a, b)
+        nextBranch[i] = hashParent(a, b)
+      }
+      if (hasProgressCallback) {
+        prog -= branchProg / len
+        onProgress(1 - prog)
       }
     }
+    branch = tree[++n]
   }
+  if (hasProgressCallback) onProgress(1)
   return tree
 }
 
@@ -154,4 +165,40 @@ export function getMerkleRoot(tree: ArrayBuffer[][]): ArrayBuffer {
   const rootBranch = tree[tree.length - 1]
   const root = rootBranch[rootBranch.length - 1]
   return root
+}
+
+export function getMerkleProof(tree: ArrayBuffer[][], n: number): ArrayBuffer {
+  const len = tree.length - 1
+  const proofs = []
+  let idx = n
+  for (let i = 0; i < len; i++) {
+    const branch = tree[i]
+    const { length } = branch
+    const pairIdx = idx % 2 === 0 ? idx + 1 : idx - 1
+    const leaf = branch[pairIdx]
+    if (leaf) proofs.push(leaf)
+    idx = Math.floor(idx / 2)
+  }
+  // console.log(proofs.map(arrayBufferToHex))
+  const { length } = proofs
+  const proof = new ArrayBuffer(32 * length)
+  const xs = new Uint8Array(proof)
+  for (let i = 0; i < length; i++) {
+    xs.set(new Uint8Array(proofs[i]), i * 32)
+  }
+  return proof
+}
+
+export function indexOfArrayBuffer(
+  tree: ArrayBuffer[][],
+  addr: ArrayBuffer,
+): number {
+  const leaf = hashLeaf(addr)
+  const [branch] = tree
+  const { length } = branch
+  for (let i = 0; i < length; i++) {
+    const found = arrayBufferEqualTo(leaf, branch[i])
+    if (found) return i
+  }
+  throw new Error(`Could not find leaf in tree`)
 }

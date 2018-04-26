@@ -9,7 +9,12 @@ const App = styled(({ className }) => {
     <div className={className}>
       <h1>Mine Livepeer Token</h1>
       <Consumer
-        selector={[prop('address'), prop('mode'), prop('tokenBalance')]}
+        selector={[
+          prop('address'),
+          prop('mode'),
+          prop('tokenBalance'),
+          prop('merkleRoot'),
+        ]}
       >
         {selectorController}
       </Consumer>
@@ -21,12 +26,13 @@ const App = styled(({ className }) => {
   // styles go here
 `
 
-const selectorController = ([address, mode, tokenBalance]) => {
+const selectorController = ([address, mode, tokenBalance, merkleRoot]) => {
   // console.log(address, mode)
   return (
     <React.Fragment>
       <p>address: {address}</p>
       <p>token balance: {(tokenBalance / 10e18).toFixed(2)} LPT</p>
+      <p>merkle root: 0x{merkleRoot}</p>
       <ModeSelector mode={mode} />
     </React.Fragment>
   )
@@ -59,6 +65,12 @@ const viewController = state => {
   if (mode === 'generateToken') return <GenerateTokenMode {...props} />
   return null
 }
+
+// const GenerateTokenProof = styled(
+
+// )`
+//   // styles go here...
+// `
 
 const GenerateTokenMode = styled(
   ({ className, address, errors, proof, submitting, txHash, txReceipt }) => (
