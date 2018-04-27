@@ -2,6 +2,7 @@ import {
   createMerkleTree,
   getMerkleRoot,
   getMerkleProof,
+  hashLeaf,
   hexToArrayBuffer,
   indexOfArrayBuffer,
   arrayBufferToHex,
@@ -22,17 +23,20 @@ function onMessage(msg) {
       let proof = PROOFS.get(data.value)
       if (!proof) {
         const addr = hexToArrayBuffer(data.value)
-        const index = indexOfArrayBuffer(TREE, addr)
-        console.log('found at index', index)
-        proof = getMerkleProof(TREE, index)
-        PROOFS.set(data.value, proof)
+        try {
+          const index = indexOfArrayBuffer(TREE, addr)
+          console.log('found at index', index)
+          proof = getMerkleProof(TREE, index)
+        } catch (err) {
+          console.error(err)
+          proof = new ArrayBuffer(0)
+        } finally {
+          PROOFS.set(data.value, proof)
+        }
       }
       self.postMessage({
         type: 'proof',
-        value: {
-          address: data.value,
-          proof: arrayBufferToHex(proof),
-        },
+        value: arrayBufferToHex(proof),
       })
       console.log('done! ✨')
       break

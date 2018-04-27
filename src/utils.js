@@ -135,6 +135,8 @@ export function createMerkleTree(
   let n = 0
   let [branch] = tree
   let prog = 1
+  let lastProg = 0
+  let currProg = 0
   if (hasProgressCallback) onProgress(1 - prog)
   while (branch.length > 1) {
     const { length } = branch
@@ -152,12 +154,17 @@ export function createMerkleTree(
       }
       if (hasProgressCallback) {
         prog -= branchProg / len
-        onProgress(1 - prog)
+        currProg = 1 - prog
+        if (currProg - lastProg > 0.01) {
+          // console.log('1% additional progress!')
+          onProgress(currProg)
+          lastProg = currProg
+        }
       }
     }
     branch = tree[++n]
   }
-  if (hasProgressCallback) onProgress(1)
+  if (hasProgressCallback && prog !== 0) onProgress(1)
   return tree
 }
 

@@ -1,36 +1,88 @@
+import Identicon from 'identicon.js'
 import { createMutator } from './state'
-import { merkleMine, provider } from './contracts'
+import { erc20, merkleMine, provider } from './contracts'
+import { promisify } from './utils'
+import { createMerkleTree, getMerkleProof } from './worker-utils'
 
-export const changeMode = createMutator((state, e) => {
-  const { value } = e.target
-  state.mode = value
+const getAccounts = promisify(window.web3.eth.getAccounts)
+const getEthBalance = promisify(window.web3.eth.getBalance)
+const PROOFS = {}
+
+export const setState = createMutator((state, f) => {
+  f(state)
 })
 
-export const setMerkleRoot = createMutator((state, value) => {
-  state.merkleRoot = value
-})
+export async function initializeAccount(worker) {
+  const [address] = await getAccounts()
+  const ethBalance = await getEthBalance(address)
+  const tokenBalance = await erc20.balanceOf(address)
+  setState(state => {
+    state.address = address
+    state.ethBalance = ethBalance.toString(10)
+    state.tokenBalance = tokenBalance.toString(10)
+    state.identicon =
+      'data:image/svg+xml;base64,' +
+      new Identicon(address.substr(2), {
+        background: [0, 0, 0, 0],
+        size: 32,
+        format: 'svg',
+      }).toString()
+    if (!(address in PROOFS) && state.treeProgress === 1) {
+      generateProof(worker, address, state.merkleRoot)
+    } else if (address in PROOFS) {
+      state.merkleProof = PROOFS[address]
+    }
+  })
+}
 
-export const setMerkleProof = createMutator((state, value) => {
-  state.merkleProof = value
-})
+export async function fetchData(url, cb) {
+  setState(state => {
+    state.dataLoading = true
+  })
+  const res = await fetch(url)
+  setState(state => {
+    state.dataLoading = false
+  })
+  cb(res)
+}
 
-export const setViewState = createMutator((state, key, nextState) => {
-  if (!(key in state)) throw new Error(`View "${key}" is not part of the state`)
-  state[key] = Object.assign(state[key], nextState)
-})
+export async function generateTreeAndProof(worker, address, res) {
+  const initialProgress = 0.2
+  const buf = await res.arrayBuffer()
+  setState(state => {
+    // set initial progress percentage
+    state.treeProgress = initialProgress
+  })
+  const merkleRoot = await createMerkleTree(worker, buf, n => {
+    if (n <= initialProgress) return
+    setState(state => {
+      state.treeProgress = n
+    })
+  })
+  generateProof(worker, address, merkleRoot)
+}
 
-export async function generateToken(address, proof, txParams) {
+export async function generateProof(worker, address, merkleRoot) {
+  const merkleProof = await getMerkleProof(worker, address.substr(2))
+  setState(state => {
+    PROOFS[address] = merkleProof
+    state.merkleRoot = merkleRoot
+    state.merkleProof = merkleProof
+  })
+}
+
+export async function generateToken(address, proof) {
   try {
-    setViewState('generateToken', {
-      txHash: '',
-      txReceipt: null,
-      errors: [],
+    setState(state => {
+      state.txHash = ''
+      state.txReceipt = null
+      state.txError = null
     })
     console.log('Submitting transaction...', address, proof)
     const txRequest = await merkleMine.generate(address, proof)
     const txHash = txRequest.hash
-    setViewState('generateToken', {
-      txHash,
+    setState(state => {
+      state.txHash = txHash
     })
     console.log('Transaction submitted!', txHash)
     console.log('Waiting for transaction to be mined...')
@@ -38,8 +90,8 @@ export async function generateToken(address, proof, txParams) {
     console.log('Transaction accepted!', txResponse)
     console.log('Waiting for transaction receipt...')
     const txReceipt = await provider.getTransactionReceipt(txHash)
-    setViewState('generateToken', {
-      txReceipt,
+    setState(state => {
+      state.txReceipt = txReceipt
     })
     console.log('Transaction mined!', txReceipt)
     if (!txReceipt.status) {
@@ -47,8 +99,8 @@ export async function generateToken(address, proof, txParams) {
     }
   } catch (err) {
     console.error(err)
-    setViewState('generateToken', {
-      errors: [err],
+    setState(state => {
+      state.txError = err
     })
   }
 }

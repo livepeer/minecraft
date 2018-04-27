@@ -1,27 +1,17 @@
 import createState from 'react-copy-write'
 
 const { Provider, Consumer, createMutator } = createState({
-  mode: 'generateToken', // generateProof || generateRawTx
-  address: window.web3.eth.accounts[0],
-  tokenBalance: 0,
+  address: '',
+  dataLoading: false,
+  ethBalance: '',
+  identicon: '',
   merkleProof: '',
   merkleRoot: '',
-  generateProof: {
-    dataUrl: '',
-    data: null,
-    loading: false,
-    generatingProof: false,
-    errors: [],
-  },
-  generateToken: {
-    txHash: '',
-    txReceipt: null,
-    errors: [],
-  },
-  generateRawTx: {
-    rawTx: '',
-    errors: [],
-  },
+  tokenBalance: '',
+  treeProgress: 0,
+  txError: null,
+  txHash: '',
+  txReceipt: null,
 })
 
 export { Provider, Consumer, createMutator }

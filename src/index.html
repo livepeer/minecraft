@@ -1,19 +1,21 @@
 <html>
-<style>
-  :root {
-    --progress: 0%;
-  }
 
-  .progress {
-    width: var(--progress);
-    background: green;
-    height: 16px;
-    transition: all .3s linear;
-  }
-</style>
+<head>
+  <style>
+    html {
+      font-family: sans-serif;
+    }
+    .progress {
+      width: 0%;
+      background: green;
+      height: 16px;
+      transition: all .3s linear;
+    }
+  </style>
+</head>
 
 <body>
-  <div class="progress"></div>
+  <!-- <div class="progress"></div> -->
   <div id="root"></div>
   <script src="./index.js"></script>
 </body>
