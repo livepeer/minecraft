@@ -4,7 +4,7 @@ const { Provider, Consumer, createMutator } = createState({
   mode: 'generateToken', // generateProof || generateRawTx
   address: window.web3.eth.accounts[0],
   tokenBalance: 0,
-  proof: '0x000000',
+  merkleProof: '',
   merkleRoot: '',
   generateProof: {
     dataUrl: '',

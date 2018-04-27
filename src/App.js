@@ -14,6 +14,7 @@ const App = styled(({ className }) => {
           prop('mode'),
           prop('tokenBalance'),
           prop('merkleRoot'),
+          prop('merkleProof'),
         ]}
       >
         {selectorController}
@@ -26,13 +27,20 @@ const App = styled(({ className }) => {
   // styles go here
 `
 
-const selectorController = ([address, mode, tokenBalance, merkleRoot]) => {
+const selectorController = ([
+  address,
+  mode,
+  tokenBalance,
+  merkleRoot,
+  merkleProof,
+]) => {
   // console.log(address, mode)
   return (
     <React.Fragment>
       <p>address: {address}</p>
       <p>token balance: {(tokenBalance / 10e18).toFixed(2)} LPT</p>
       <p>merkle root: 0x{merkleRoot}</p>
+      <p>merkle proof: 0x{merkleProof}</p>
       <ModeSelector mode={mode} />
     </React.Fragment>
   )
