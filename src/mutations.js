@@ -15,7 +15,7 @@ export const setState = createMutator((state, f) => {
 export async function initializeAccount(worker) {
   const [address] = await getAccounts()
   const ethBalance = await getEthBalance(address)
-  const tokenBalance = await erc20.balanceOf(address)
+  const tokenBalance = '0' //await erc20.balanceOf(address)
   setState(state => {
     state.address = address
     state.ethBalance = ethBalance.toString(10)
@@ -64,9 +64,13 @@ export async function generateTreeAndProof(worker, address, buf) {
 }
 
 export async function generateProof(worker, address, merkleRoot) {
+  setState(state => {
+    state.generatingProof = true
+  })
   const merkleProof = await getMerkleProof(worker, address.substr(2))
   setState(state => {
     PROOFS[address] = merkleProof
+    state.generatingProof = false
     state.merkleRoot = merkleRoot
     state.merkleProof = merkleProof
   })

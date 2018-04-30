@@ -24,6 +24,7 @@ const App = styled(
         className,
         dataLoading,
         ethBalance,
+        generatingProof,
         identicon,
         merkleRoot,
         merkleProof,
@@ -70,12 +71,12 @@ const App = styled(
             />
             <LoadingBar
               progress={treeProgress}
-              fail={!merkleProof && treeProgress === 1}
+              fail={!merkleProof && !generatingProof && treeProgress === 1}
             />
             <MerkleCard
               message={
                 treeProgress > 0 && treeProgress < 1
-                  ? 'Generating...'
+                  ? 'Generating your merkle proof...'
                   : !merkleProof && treeProgress
                     ? 'Could not generate a proof for this account address :('
                     : ''
@@ -211,6 +212,14 @@ const MerkleDataLoader = styled(
               {disabled ? 'Loading...' : 'Load'}
             </button>
           </div>
+          {loading ? (
+            <small>
+              <br />
+              Downloading input data. This may take a few minutes...
+            </small>
+          ) : (
+            ''
+          )}
         </div>
       )
     }
@@ -352,6 +361,7 @@ const MerkleCard = styled(
 
   textarea.merkleProof {
     background: ${({ proof }) => (proof ? 'rgba(0, 255, 0, .1)' : 'inherit')};
+    height: 120px;
   }
 
   textarea.txReceipt {

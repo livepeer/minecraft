@@ -1,4 +1,4 @@
-export const address = '0x1bac05dbfa98f82ec2268b9a46e6ab429dcdb57b'
+export const address = '0xe999ac1e8065d112ff3af3d8440bde70f1cb42f1'
 
 export const name = 'MerkleMine'
 

@@ -1,6 +1,6 @@
-export const address = '0xacd07c5d6b4c90a56cd96b273c9045972ca5aa94'
+export const address = '0xecb81b96e169882b8d6276b87a19cb47efbd1c4a'
 
-export const name = 'ERC20'
+export const name = 'LivepeerToken'
 
 export const abi = [
   {

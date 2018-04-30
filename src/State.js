@@ -4,6 +4,7 @@ const { Provider, Consumer, createMutator } = createState({
   address: '',
   dataLoading: false,
   ethBalance: '',
+  generatingProof: false,
   identicon: '',
   merkleProof: '',
   merkleRoot: '',

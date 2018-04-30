@@ -20,19 +20,6 @@ import { keccak_256 as keccak256 } from 'js-sha3'
 
 console.clear()
 
-// console.log(
-//   utils.toUtf8String('0x4fe9367ef5dad459ae9cc4265c69b1b10a4e1288')),
-// )
-
-// 1 hash inputs
-// 2 sort leaves = [leafA, leafB].sort(pairwise)
-// 3 hash again keccack([...leaves[0], ...leaves[1]])
-
-// ---
-
-// prove(input/*A*/, hash(B)/*proof*/, hash(A + B)/*root*/): boolean
-// hash([hash(A ), proof].sort(pairwise)) === root
-
 test('sortArrayBuffers', t => {
   const a = '4fe9367ef5dad459' // 5758193517488428121
   const b = '546266e73438ef2d' // 6080535590103215917
@@ -98,7 +85,7 @@ test('verifyProof', t => {
   t.true(valid)
 })
 
-test.only('verify multiple levels', t => {
+test('verify multiple levels', t => {
   const addresses = `
 4fe9367ef5dad459ae9cc4265c69b1b10a4e1288
 546266e73438ef2486c6d004d4cb8995373512da
@@ -185,25 +172,17 @@ d5e1221fa3b2617be2ae3be72689362dd90e9fc3
   const input = mergeAllArrayBuffers(
     ...addresses.map(hexToArrayBuffer).sort(sortArrayBuffers),
   )
-  // const xs = new Uint8Array(input)
-  // const len = xs.length
-  // for (let i = 0; i < len; i++) {
-  //   const a = i * 20
-  //   const b = a + 20
-  //   const addr = arrayBufferToHex(xs.slice(a, b).buffer)
-  //   console.log(addr)
-  //   return
-  // }
   const tree = createMerkleTree(input)
-  // console.log(tree.map(x => x.map(arrayBufferToHex).join('\n')).join('\n\n'))
   const root = getMerkleRoot(tree)
-
+  t.snapshot(root, 'root')
   const addrHex = '4fe9367ef5dad459ae9cc4265c69b1b10a4e1288'
   const addr = hexToArrayBuffer(addrHex)
   const index = indexOfArrayBuffer(tree, addr)
-  console.log('indexOf:', index)
+  // console.log('indexOf:', index)
   const proof = getMerkleProof(tree, index)
-  console.log('root:', arrayBufferToHex(root))
-  console.log('proof:', arrayBufferToHex(proof))
-  t.pass()
+  // console.log('root:', arrayBufferToHex(root))
+  // console.log('proof:', arrayBufferToHex(proof))
+  t.snapshot(addr, 'address')
+  t.snapshot(index, 'index')
+  t.snapshot(proof, 'proof')
 })
