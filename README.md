@@ -49,26 +49,28 @@ Congratulations, you’ve mined your token and may now participate as a delegato
 
 ## Troubleshooting
 
-* [It’s telling me Web3 is not enabled](#its-telling-me-web3-is-not-enabled)
-* [My account never loads](#my-account-never-loads)
-* [I couldn’t generate a proof](#i-couldnt-generate-a-proof)
-
-### It’s telling me Web3 is not enabled.
+<details><summary>It’s telling me Web3 is not enabled</summary><p>
 
 In order to mine LPT, you will need to use a web3-enabled browser such as Mist or a browser extension such as MetaMask.
 
 <img src="media/web3_not_enabled.png" width="720">
 
-### My account never loads.
+</p></details>
 
-You may need to unlock your account through your browser extension or plugin.
+<details><summary>My account never loads</summary><p>
+
+You may need to unlock your account through your browser extension or plugin. Also be sure you are connected to the Ethereum Main Network (not Rinkeby, Ropsten, etc).
 
 <img src="media/stuck_loading.png" width="720">
 
-### I couldn’t generate a proof.
+</p></details>
+
+<details><summary>I couldn’t generate a proof</summary><p>
 
 Only account address with a balance >= .1 ETH prior at Ethereum block #5264265 are able to generate LPT through this dapp. If your address does not fit that criteria, you won’t be able to mine LPT with this dapp.
 
 <img src="media/generate_proof_error.png" width="720">
 
 > **Note**: There is also a possibility the input data you are providing is incorrect or not sorted properly. If you think this may be the case, please refer to the mining specification for more information: https://github.com/livepeer/merkle-mine/blob/master/SPEC.md
+
+</p></details>
