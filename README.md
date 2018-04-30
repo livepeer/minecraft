@@ -1,11 +1,5 @@
 # Minecraft: Livepeer Token Miner
 
-## Table of Contents
-
-* [Getting Started](#getting-started)
-* [How to Mine LPT](#how-to-mine-lpt)
-* [Troubleshooting](#troubleshooting)
-
 ## Getting Started
 
 To install dependencies and start this dApp locally, run the following command:
