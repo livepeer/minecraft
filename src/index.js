@@ -7,11 +7,10 @@ import { injectGlobal } from 'styled-components'
 import { Provider } from './state'
 import { setMerkleRoot, setMerkleProof } from './mutations'
 import App from './App'
-import testURL from './test.bin'
-import accountsURL from './accounts.bin'
-
-console.log(testURL)
-console.log(accountsURL)
+// import testURL from './test.bin'
+// import accountsURL from './accounts.bin'
+// console.log(testURL)
+// console.log(accountsURL)
 
 render(
   <Provider>
