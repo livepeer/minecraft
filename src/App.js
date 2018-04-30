@@ -44,7 +44,8 @@ const App = styled(
             <H2>Account</H2>
             {!address ? (
               <p style={{ margin: 0 }}>
-                Loading...<br /><br />
+                Loading...<br />
+                <br />
                 <small>
                   <strong>Note:</strong> if this takes a while, you may need to
                   unlock your web3 account
@@ -62,6 +63,7 @@ const App = styled(
             <H2>Merkle Data</H2>
             <MerkleDataLoader
               loading={dataLoading}
+              treeProgress={treeProgress}
               onLoad={res => {
                 generateTreeAndProof(worker, address, res)
               }}
@@ -188,6 +190,7 @@ const MerkleDataLoader = styled(
     }
     render() {
       const { className, loading, treeProgress } = this.props
+      const disabled = loading || (treeProgress > 0 && treeProgress < 1)
       return (
         <div className={className}>
           <label>Input Data URL</label>
@@ -195,7 +198,7 @@ const MerkleDataLoader = styled(
             <input
               type="text"
               placeholder="Enter a url with sorted ETH address data to generate your proof"
-              disabled={loading}
+              disabled={disabled}
               onBlur={e => {
                 this.dataUrl = e.target.value
               }}
@@ -204,8 +207,8 @@ const MerkleDataLoader = styled(
                 if (e.keyCode === 13) this.onLoad()
               }}
             />
-            <button disabled={loading} onClick={this.onLoad}>
-              {loading ? 'Loading...' : 'Load'}
+            <button disabled={disabled} onClick={this.onLoad}>
+              {disabled ? 'Loading...' : 'Load'}
             </button>
           </div>
         </div>

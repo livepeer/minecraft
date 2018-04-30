@@ -40,15 +40,16 @@ export async function fetchData(url, cb) {
     state.dataLoading = true
   })
   const res = await fetch(url)
+  const buf = await res.arrayBuffer()
   setState(state => {
     state.dataLoading = false
   })
-  cb(res)
+  cb(buf)
 }
 
-export async function generateTreeAndProof(worker, address, res) {
+export async function generateTreeAndProof(worker, address, buf) {
   const initialProgress = 0.2
-  const buf = await res.arrayBuffer()
+  // const buf = await res.arrayBuffer()
   setState(state => {
     // set initial progress percentage
     state.treeProgress = initialProgress
