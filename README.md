@@ -16,13 +16,15 @@ yarn && yarn start
 
 ## How to Mine LPT
 
-### Step 1: Load Your Account
+<details><summary>Step 1: Load Your Account</summary><p>
 
 Once you are logged into web3 wallet, the Dapp will automatically pull in the address, ETH, and LPT balances for your wallet.
 
 <img src="media/load_your_account.png" width="720">
 
-### Step 2: Load Merkle Input Data
+</p></details>
+
+<details><summary>Step 2: Load Merkle Input Data</summary><p>
 
 Input the url for the data, a compressed binary of all account addresses sorted. This is a big file and will take a while to load.
 
@@ -35,11 +37,15 @@ Once loading completes, **and** if your selected account is eligible to mine, th
 
 <img src="media/generated_proof.png" width="720">
 
-### Step 3: Mine Your Token
+</p></details>
+
+<details><summary>Step 3: Mine Your Token</summary><p>
 
 You may now mine your LPT by clicking “Submit Proof”. Confirm your transaction details, submit, and once the transaction completes successfully, your LPT balance should show a value greater than “0.0”.
 
 Congratulations, you’ve mined your token and may now participate as a delegator in the Livepeer protocol! 🎉
+
+</p></details>
 
 ## Troubleshooting
 
