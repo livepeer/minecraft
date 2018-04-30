@@ -1,14 +1,20 @@
-# Minecraft
+# Minecraft: Livepeer Token Miner
+
+## Table of Contents
+
+* [Getting Started](#getting-started)
+* [How to Mine LPT](#how-to-mine-lpt)
+* [Troubleshooting](#troubleshooting)
 
 ## Getting Started
 
-To start this dApp locally, run the following command:
+To install dependencies and start this dApp locally, run the following command:
 
 ```
 yarn && yarn start
 ```
 
-## How to Mine Your LPT
+## How to Mine LPT
 
 ### Step 1: Load Your Account
 
@@ -36,6 +42,10 @@ You may now mine your LPT by clicking “Submit Proof”. Confirm your transacti
 Congratulations, you’ve mined your token and may now participate as a delegator in the Livepeer protocol! 🎉
 
 ## Troubleshooting
+
+* [It’s telling me Web3 is not enabled](#its-telling-me-web3-is-not-enabled)
+* [My account never loads](#my-account-never-loads)
+* [I couldn’t generate a proof](#i-couldnt-generate-a-proof)
 
 ### It’s telling me Web3 is not enabled.
 
