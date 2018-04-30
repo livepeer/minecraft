@@ -1,5 +1,7 @@
 # Minecraft: Livepeer Token Miner
 
+<img src="media/generated_proof.png" width="320">
+
 ## Getting Started
 
 To install dependencies and start this dApp locally, run the following command:
@@ -7,6 +9,8 @@ To install dependencies and start this dApp locally, run the following command:
 ```
 yarn && yarn start
 ```
+
+The command line output should display the url to visit in order to use this dApp.
 
 ## How to Mine LPT
 
