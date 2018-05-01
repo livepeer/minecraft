@@ -15,7 +15,7 @@ export const setState = createMutator((state, f) => {
 export async function initializeAccount(worker) {
   const [address] = await getAccounts()
   const ethBalance = await getEthBalance(address)
-  const tokenBalance = '0' //await erc20.balanceOf(address)
+  const tokenBalance = await erc20.balanceOf(address)
   setState(state => {
     state.address = address
     state.ethBalance = ethBalance.toString(10)
@@ -49,7 +49,6 @@ export async function fetchData(url, cb) {
 
 export async function generateTreeAndProof(worker, address, buf) {
   const initialProgress = 0.2
-  // const buf = await res.arrayBuffer()
   setState(state => {
     // set initial progress percentage
     state.treeProgress = initialProgress
