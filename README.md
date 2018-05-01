@@ -44,9 +44,9 @@ If your selected account is eligible to mine, the proof will appear in the texta
 
 <details><summary>Step 3: Mine Your Token</summary><p>
 
-You may now mine your LPT by clicking “Submit Proof”. Confirm your transaction details, submit, and once the transaction completes successfully, your LPT balance should show a value greater than “0.0”.
+You may now mine your LPT by clicking “Submit Proof”. Confirm your transaction details, submit, and once the transaction completes successfully, your LPT balance should show a value greater than “0.0”. Congratulations, now that you're an official Livepeer Token holder, you're ready to participate in the protocol! 🎉
 
-Congratulations, you’ve mined your token and may now participate as a delegator in the Livepeer protocol! 🎉
+#### Head over to the Protocol Explorer and [start delegating &raquo;](https://explorer.livepeer.org/transcoders)
 
 </p></details>
 
