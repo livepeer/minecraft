@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "npx parcel src/index.html",
+    "build": "npx parcel build src/index.html",
     "encode": "node encode",
     "decode": "node decode",
     "test": "ava"
