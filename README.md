@@ -34,14 +34,9 @@ Once you are logged into web3 wallet, the Dapp will automatically pull in the ad
 
 <details><summary>Step 2: Load Merkle Input Data</summary><p>
 
-Input the url for the data, a compressed binary of all account addresses sorted. This is a big file and will take a while to load.
+Click "Load" next to the Input Data URL text field, to download the compressed binary of all account addresses that are eligible to mine Livepeer Token. This is a big file and will take a while to load. After the download completes, your proof will begin generating automatically.
 
-Click Load, it will start loading data, and simultaneously generating proof. This will take a long time - its a 50mb file.
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="media/generating_merkle_proof.gif" width="630">
-
-Once loading completes, **and** if your selected account is eligible to mine, the proof will appear in the textarea below the url input.
+If your selected account is eligible to mine, the proof will appear in the textarea below the url input.
 
 <img src="media/generated_proof.png" width="720">
 
