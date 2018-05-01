@@ -5,7 +5,11 @@
   "license": "MIT",
   "scripts": {
     "start": "npx parcel src/index.html",
-    "build": "npx parcel build src/index.html",
+    "build": "node -e 'fs.writeFileSync(`dist/index.html`, `<html><head><title>Livepeer Token Miner</title><body><div id=\"root\"></div><script>${fs.readFileSync(`src/index.min.js`, `utf8`)}</script></body></html>`)'",
+    "prebuild": "yarn clean && yarn build:worker && yarn build:main",
+    "clean": "rm -rf .cache && rm -rf dist && mkdir dist",
+    "build:main": "npx parcel build src/index.js -d src -o index.min",
+    "build:worker": "npx parcel build src/merkleWorker.js -d src -o merkleWorker.min",
     "encode": "node encode",
     "decode": "node decode",
     "test": "ava"

@@ -14,5 +14,3 @@ export const merkleMine = new ethers.Contract(
 )
 
 export const erc20 = new ethers.Contract(ERC20.address, ERC20.abi, signer)
-
-console.log(erc20)

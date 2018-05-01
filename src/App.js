@@ -85,28 +85,39 @@ const App = styled(
               root={merkleRoot}
               txReceipt={txReceipt}
             />
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <div>
               {!merkleProof ? null : (
                 <React.Fragment>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <SubmitButton
+                      disabled={txHash && !txReceipt}
+                      onClick={() => {
+                        generateToken(address, `0x${merkleProof}`)
+                      }}
+                    >
+                      {txHash && !txReceipt ? 'Submitting...' : 'Submit Proof'}
+                    </SubmitButton>
+                  </div>
                   {!txError ? null : (
                     <p
                       style={{
+                        boxSizing: 'border-box',
+                        padding: 16,
+                        borderRadius: 8,
+                        border: '1px solid red',
                         color: 'red',
-                        fontWeight: 'bold',
                         width: '100%',
+                        wordWrap: 'break-word'
                       }}
                     >
+                      <strong>
+                        There was an error submitting your transaction:
+                      </strong>
+                      <br />
+                      <br />
                       ❗{txError.message}
                     </p>
                   )}
-                  <SubmitButton
-                    disabled={txHash && !txReceipt}
-                    onClick={() => {
-                      generateToken(address, `0x${merkleProof}`)
-                    }}
-                  >
-                    {txHash && !txReceipt ? 'Submitting...' : 'Submit Proof'}
-                  </SubmitButton>
                 </React.Fragment>
               )}
             </div>
@@ -183,7 +194,8 @@ const MerkleDataLoader = styled(
   class MerkleDataLoaderComponent extends React.Component {
     constructor(props) {
       super(props)
-      this.dataUrl = ''
+      this.dataUrl =
+        'https://gateway.ipfs.io/ipfs/QmQbvkaw5j8TFeeR7c5Cs2naDciUVq9cLWnV3iNEzE784r'
       this.onLoad = this.onLoad.bind(this)
     }
     onLoad() {
@@ -197,14 +209,12 @@ const MerkleDataLoader = styled(
           <label>Input Data URL</label>
           <div className="form">
             <input
+              readOnly
               type="text"
               placeholder="Enter a url with sorted ETH address data to generate your proof"
               disabled={disabled}
-              onBlur={e => {
-                this.dataUrl = e.target.value
-              }}
+              value={this.dataUrl}
               onKeyDown={e => {
-                this.dataUrl = e.target.value
                 if (e.keyCode === 13) this.onLoad()
               }}
             />
