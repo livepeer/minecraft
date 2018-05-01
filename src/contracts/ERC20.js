@@ -1,4 +1,4 @@
-export const address = '0xecb81b96e169882b8d6276b87a19cb47efbd1c4a'
+export const address = '0x58b6a8a3302369daec383334672404ee733ab239'
 
 export const name = 'LivepeerToken'
 
