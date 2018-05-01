@@ -4,7 +4,7 @@
  | Before you submit it, please ensure you've done the following:
  |
  | - [ ] Make sure this issue is not already reported by searching through
- |       https://github.com/livepeer/livepeerjs/issues
+ |       https://github.com/livepeer/minecraft/issues
  | - [ ] Provide a general summary of the issue in the Title above
  | - [ ] Fill out all sections below marked as required
  |
