@@ -2,9 +2,7 @@
 
 <img src="media/generated_proof.png" width="320">
 
-**The latest copy of this DApp is running on IPFS at hash
-  QmRSjvHTmayqGf3sDuZzZZCRE3HPQUTBBHdoaqnXwb4VAS](https://gateway.ipfs.io/ipfs/QmRSjvHTmayqGf3sDuZzZZCRE3HPQUTBBHdoaqnXwb4VAS)**. Check
-  it out there, or read on to build and run the DApp yourself locally.
+**The latest copy of this DApp is running on IPFS at hash [QmRSjvHTmayqGf3sDuZzZZCRE3HPQUTBBHdoaqnXwb4VAS](https://gateway.ipfs.io/ipfs/QmRSjvHTmayqGf3sDuZzZZCRE3HPQUTBBHdoaqnXwb4VAS)**. Check it out there, or read on to build and run the DApp yourself locally.
 
 ## Getting Started
 
