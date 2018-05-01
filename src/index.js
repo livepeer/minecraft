@@ -12,6 +12,9 @@ injectGlobal`
   box-sizing: border-box;
   margin: 0;
 }
+html {
+  font-family: sans-serif;
+}
 `
 
 // Load stringified worker so we can keep all JS in a single file
