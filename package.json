@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "npx parcel src/index.html",
-    "build": "node -e 'fs.writeFileSync(`dist/index.html`, `<html><head><title>Livepeer Token Miner</title><body><div id=\"root\"></div><script>${fs.readFileSync(`src/index.min.js`, `utf8`)}</script></body></html>`)'",
+    "build": "node build",
     "prebuild": "yarn clean && yarn build:worker && yarn build:main",
     "clean": "rm -rf .cache && rm -rf dist && mkdir dist",
     "build:main": "npx parcel build src/index.js -d src -o index.min",

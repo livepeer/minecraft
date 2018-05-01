@@ -15,6 +15,7 @@ injectGlobal`
 html {
   font-family: sans-serif;
 }
+h1, h2, h3, h4, h5, h6 { padding: 16px 0; }
 `
 
 // Load stringified worker so we can keep all JS in a single file
