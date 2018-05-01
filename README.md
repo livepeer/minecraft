@@ -2,11 +2,17 @@
 
 <img src="media/generated_proof.png" width="320">
 
-The latest copy of this DApp is running on IPFS at hash:
+## Getting Started
+
+There are two ways to use this DApp:
+
+### 1. Use the IPFS Gateway
+
+You can visit the latest copy of this DApp on IPFS at the following hash:
 
 [QmRSjvHTmayqGf3sDuZzZZCRE3HPQUTBBHdoaqnXwb4VAS](https://gateway.ipfs.io/ipfs/QmRSjvHTmayqGf3sDuZzZZCRE3HPQUTBBHdoaqnXwb4VAS)
 
-## Getting Started
+### 2. Build and run locally
 
 To install dependencies and start this dApp locally, run the following command:
 
