@@ -4,7 +4,9 @@ import { erc20, merkleMine, provider } from './contracts'
 import { promisify, getQueryVariable } from './utils'
 import { createMerkleTree, getMerkleProof } from './worker-utils'
 
-const getAccounts = !getQueryVariable('address')
+const useQueryString = !!getQueryVariable('address')
+
+const getAccounts = !useQueryString
   ? promisify(window.web3.eth.getAccounts)
   : () => {
       let addr = '0x'.padEnd(20, '0')
@@ -14,7 +16,7 @@ const getAccounts = !getQueryVariable('address')
       return [addr]
     }
 
-const getEthBalance = window.web3
+const getEthBalance = !useQueryString
   ? promisify(window.web3.eth.getBalance)
   : provider.getBalance.bind(provider)
 
