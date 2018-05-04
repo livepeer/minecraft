@@ -11,7 +11,7 @@ There are two ways to use this DApp:
 If you choose to use the latest copy of this DApp on IPFS. There are two options:
 
 - Use a web3-enabled browser to [Generate a proof and submit the token mining transaction](https://gateway.ipfs.io/ipfs/QmUvAFQZxbgMCqCMLUSj2kQBpZUhj5qi8KhmPDVvv9apfj)
-- Or visit `https://gateway.ipfs.io/ipfs/QmUvAFQZxbgMCqCMLUSj2kQBpZUhj5qi8KhmPDVvv9apfj?address=ETH_ADDRESS` to generate a proof. This proof can be used to submit a mining transaction through other means, such as MyEtherWallet. **Be sure to replace `?address=ETH_ADDRESS` with the address you'd like to generate a proof for.**
+- Or visit `https://gateway.ipfs.io/ipfs/QmUvAFQZxbgMCqCMLUSj2kQBpZUhj5qi8KhmPDVvv9apfj?address=ETH_ADDRESS` to generate a proof. This proof can be used to submit a mining transaction through other means, such as MyEtherWallet. **Be sure to replace `ETH_ADDRESS` with the address you'd like to generate a proof for.**
 
 ### 2. Build and run locally
 
