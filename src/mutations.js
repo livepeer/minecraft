@@ -1,11 +1,23 @@
 import Identicon from 'identicon.js'
 import { createMutator } from './state'
 import { erc20, merkleMine, provider } from './contracts'
-import { promisify } from './utils'
+import { promisify, getQueryVariable } from './utils'
 import { createMerkleTree, getMerkleProof } from './worker-utils'
 
-const getAccounts = promisify(window.web3.eth.getAccounts)
-const getEthBalance = promisify(window.web3.eth.getBalance)
+const getAccounts = !getQueryVariable('address')
+  ? promisify(window.web3.eth.getAccounts)
+  : () => {
+      let addr = '0x'.padEnd(20, '0')
+      setState(state => {
+        addr = state.address
+      })
+      return [addr]
+    }
+
+const getEthBalance = window.web3
+  ? promisify(window.web3.eth.getBalance)
+  : provider.getBalance.bind(provider)
+
 const PROOFS = {}
 
 export const setState = createMutator((state, f) => {

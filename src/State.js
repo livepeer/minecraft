@@ -1,7 +1,8 @@
 import createState from 'react-copy-write'
+import { getQueryVariable } from './utils'
 
 const { Provider, Consumer, createMutator } = createState({
-  address: '',
+  address: getQueryVariable('address') || '',
   dataLoading: false,
   ethBalance: '',
   generatingProof: false,

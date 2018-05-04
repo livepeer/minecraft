@@ -1,6 +1,6 @@
 const fs = require('fs')
 const [html] = fs
-  .readFileSync('./index.html', 'utf8')
+  .readFileSync('./src/index.html', 'utf8')
   .split('<script src="./index.js"></script>')
 const js = fs.readFileSync('./src/index.min.js', 'utf8')
 

@@ -16,6 +16,22 @@ export function promisify(f) {
     })
 }
 
+export function getQueryVariable(key) {
+  try {
+    const query = window.location.search.substring(1)
+    const vars = query.split('&')
+    const { length } = vars
+    for (let i = 0; i < length; i++) {
+      const [k, v] = vars[i].split('=')
+      if (decodeURIComponent(k) === key) {
+        return decodeURIComponent(v)
+      }
+    }
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 export const hashLeaf = keccak256.buffer
 
 export function hashParent(a: ArrayBuffer, b: ArrayBuffer): ArrayBuffer {

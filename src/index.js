@@ -1,4 +1,3 @@
-console.clear()
 import 'babel-polyfill'
 import fs from 'fs'
 import React from 'react'
@@ -14,6 +13,7 @@ injectGlobal`
 }
 html {
   font-family: sans-serif;
+  padding: 8px;
 }
 h1, h2, h3, h4, h5, h6 { padding: 16px 0; }
 `

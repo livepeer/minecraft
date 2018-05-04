@@ -77,7 +77,7 @@ const App = styled(
               message={
                 treeProgress > 0 && treeProgress < 1
                   ? 'Generating your merkle proof...'
-                  : !merkleProof && treeProgress
+                  : !merkleProof && !generatingProof && treeProgress === 1
                     ? 'Could not generate a proof for this account address :('
                     : ''
               }
@@ -86,7 +86,7 @@ const App = styled(
               txReceipt={txReceipt}
             />
             <div>
-              {!merkleProof ? null : (
+              {!merkleProof || !window.web3 ? null : (
                 <React.Fragment>
                   <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <SubmitButton
@@ -107,7 +107,7 @@ const App = styled(
                         border: '1px solid red',
                         color: 'red',
                         width: '100%',
-                        wordWrap: 'break-word'
+                        wordWrap: 'break-word',
                       }}
                     >
                       <strong>
